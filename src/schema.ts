@@ -1,13 +1,20 @@
-const graphql = require('graphql')
-const {
+// const graphql = require('graphql')
+// const {
+//   GraphQLObjectType,
+//   GraphQLString,
+//   GraphQLInt,
+//   GraphQLSchema,
+//   GraphQLList,
+// } = graphql
+
+import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
   GraphQLSchema,
   GraphQLList,
-} = graphql
-
-const NBA = require("nba");
+} from 'graphql'
+import NBA from 'nba'
 
 const Player = new GraphQLObjectType({
   name: 'Player',
@@ -37,7 +44,7 @@ const Team = new GraphQLObjectType({
     },
     simpleName: {
       type: GraphQLString,
-      // resolve: ({ teamName }) => teamName,
+      resolve: ({ simpleName }) => simpleName,
     },
   }),
 })
