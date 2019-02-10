@@ -11,3 +11,4 @@ app.use('/graphql', express_graphql({
     graphiql: true,
 }));
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
