@@ -1,11 +1,13 @@
 import express from 'express'
 import express_graphql from 'express-graphql'
+import cors from 'cors'
 
 import { schema } from './schema.js';
 
 const PORT = 4000
 
-var app = express();
+let app = express();
+app.use(cors())
 app.use('/graphql', express_graphql({
     schema,
     graphiql: true,

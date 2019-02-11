@@ -11,7 +11,7 @@ export type ITeamFromApi = {
   location: string,
 }
 
-const TeamType = new GraphQLObjectType({
+const TeamType: any = new GraphQLObjectType({
   name: 'Team',
   fields: () => ({
     id: {
@@ -25,6 +25,10 @@ const TeamType = new GraphQLObjectType({
     simpleName: {
       type: GraphQLString,
       resolve: ({ simpleName }: ITeamFromApi): string => simpleName,
+    },
+    abbreviation: {
+      type: GraphQLString,
+      resolve: ({ abbreviation }: ITeamFromApi): string => abbreviation,
     },
     logo: {
       type: GraphQLString,

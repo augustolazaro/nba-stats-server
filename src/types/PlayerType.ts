@@ -10,11 +10,16 @@ export type IPlayerFromApi = {
   teamId: string,
 }
 
-const PlayerType = new GraphQLObjectType({
+export type PlayerArgs = {
+  id: string,
+}
+
+const PlayerType: any = new GraphQLObjectType({
   name: 'Player',
   fields: () => ({
     id: {
       type: GraphQLString,
+      resolve: ({ playerId }: IPlayerFromApi): string => playerId,
     },
     firstName: {
       type: GraphQLString,
@@ -24,7 +29,7 @@ const PlayerType = new GraphQLObjectType({
     },
     team: {
       type: TeamType,
-      resolve: async ({ teamId }: IPlayerFromApi) => await NBA.teams.find(team => team.teamId === teamId),
+      resolve: async ({ teamId }: IPlayerFromApi) => await NBA.teams.find((team: any) => team.teamId === teamId),
     },
   }),
 })
