@@ -3,12 +3,18 @@ import { GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql'
 
 import PlayerType, { IPlayerFromApi } from './PlayerType'
 
+import teams from '../../data/teams.json'
+
 export type ITeamFromApi = {
   teamId: string,
   simpleName: string,
   teamName: string,
   abbreviation: string,
   location: string,
+}
+
+export type ITeamArgs = {
+  id: string,
 }
 
 const TeamType: any = new GraphQLObjectType({
@@ -40,6 +46,14 @@ const TeamType: any = new GraphQLObjectType({
         const players: IPlayerFromApi[] = await NBA.stats.playersInfo()
         
         return players.filter(player => player.teamId === teamId)
+      },
+    },
+    colors: {
+      type: new GraphQLList(GraphQLString),
+      resolve: ({ teamId }: ITeamFromApi): string[] => {
+        const currTeam = teams.find((t: any) => t.teamId === teamId)
+        if (!currTeam) return []
+        return currTeam.colors
       },
     },
   }),

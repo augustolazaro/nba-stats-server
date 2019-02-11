@@ -8,6 +8,7 @@ export type IPlayerFromApi = {
   lastName: string,
   playerId: string,
   teamId: string,
+  personId: string,
 }
 
 export type PlayerArgs = {
@@ -26,6 +27,13 @@ const PlayerType: any = new GraphQLObjectType({
     },
     lastName: {
       type: GraphQLString,
+    },
+    image: {
+      type: GraphQLString,
+      resolve: ({ personId, teamId, playerId }: IPlayerFromApi) => {
+        if (!!personId) return `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/${teamId}/2018/260x190/${personId}.png`
+        if (!!playerId) return `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/${teamId}/2018/260x190/${playerId}.png`
+      },
     },
     team: {
       type: TeamType,
