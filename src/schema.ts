@@ -6,15 +6,25 @@ import {
 } from 'graphql'
 import NBA from 'nba'
 
-import TeamType, { ITeamArgs, ITeamFromApi } from './types/TeamType'
-import PlayerType, { PlayerArgs } from './types/PlayerType'
+import TeamType, { ITeamFromApi } from './types/TeamType'
+
+import PlayerType from './types/PlayerType'
+import * as PlayerLoader from './types/PlayerLoader'
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQuery',
   fields: () => ({
     players: {
       type: new GraphQLList(PlayerType),
-      resolve: async () => await NBA.stats.playersInfo(),
+      args: {
+        search: {
+          type: GraphQLString,
+        },
+        team: {
+          type: GraphQLString,
+        },
+      },
+      resolve: async (_, args) => await PlayerLoader.loadAll(args),
     },
     player: {
       type: PlayerType,
@@ -23,11 +33,7 @@ const RootQuery = new GraphQLObjectType({
           type: GraphQLString,
         },
       },
-      resolve: async (_, { id }) => {
-        const player = await NBA.stats.playerInfo({ PlayerID: id })
-        if (!player) return {}
-        return player.commonPlayerInfo[0]
-      },
+      resolve: async (_, { id }) => await PlayerLoader.loadById(id),
     },
     teams: {
       type: new GraphQLList(TeamType),

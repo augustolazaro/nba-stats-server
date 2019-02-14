@@ -15,6 +15,11 @@ export type PlayerArgs = {
   id: string,
 }
 
+export type PlayersArgs = {
+  search?: string,
+  team?: string | null,
+}
+
 const PlayerType: any = new GraphQLObjectType({
   name: 'Player',
   fields: () => ({
