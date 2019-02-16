@@ -4,8 +4,10 @@ import { IPlayerFromApi, PlayersArgs } from './PlayerType'
 
 export const filtersMapping = (key: string, value: string, player: IPlayerFromApi) => {
   if (key === 'search' && value) {
-    const searchRegex = new RegExp(value)
-    return searchRegex.test(`${player.firstName} ${player.lastName}`)
+    const firstName = player.firstName ? player.firstName.toLocaleLowerCase() : ''
+    const lastName = player.lastName ? player.lastName.toLocaleLowerCase() : ''
+    const searchRegex = new RegExp(value.toLowerCase())
+    return searchRegex.test(`${firstName} ${lastName}`)
   }
 
   if (key === 'team') {
