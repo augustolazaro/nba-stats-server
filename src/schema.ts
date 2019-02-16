@@ -6,10 +6,13 @@ import {
 } from 'graphql'
 import NBA from 'nba'
 
-import TeamType, { ITeamFromApi } from './types/TeamType'
+import TeamType, { ITeamFromApi } from './types/team/TeamType'
 
-import PlayerType from './types/PlayerType'
-import * as PlayerLoader from './types/PlayerLoader'
+import PlayerType from './types/player/PlayerType'
+import * as PlayerLoader from './types/player/PlayerLoader'
+
+import GameType from './types/game/GameType';
+import * as GameLoader from './types/game/GameLoader'
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQuery',
@@ -51,6 +54,10 @@ const RootQuery = new GraphQLObjectType({
         
         return teams.find((t: ITeamFromApi) => t.teamId.toString() === id)
       },
+    },
+    games: {
+      type: new GraphQLList(GameType),
+      resolve: async () => await GameLoader.loadAll(),
     },
   }),
 })

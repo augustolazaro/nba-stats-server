@@ -2,6 +2,8 @@ import express from 'express'
 import express_graphql from 'express-graphql'
 import cors from 'cors'
 
+import nba from 'nba'
+
 import { schema } from './schema.js';
 
 const PORT = 4000
@@ -13,4 +15,3 @@ app.use('/graphql', express_graphql({
     graphiql: true,
 }));
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-

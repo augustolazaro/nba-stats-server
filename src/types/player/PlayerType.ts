@@ -1,7 +1,7 @@
 import NBA from 'nba'
 import { GraphQLObjectType, GraphQLString } from 'graphql'
 
-import TeamType, { ITeamFromApi } from './TeamType'
+import TeamType, { ITeamFromApi } from '../team/TeamType'
 
 export type IPlayerFromApi = {
   firstName: string,

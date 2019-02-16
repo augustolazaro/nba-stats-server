@@ -1,9 +1,9 @@
 import NBA from 'nba'
 import { GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql'
 
-import PlayerType, { IPlayerFromApi } from './PlayerType'
+import PlayerType, { IPlayerFromApi } from '../player/PlayerType'
 
-import teams from '../../data/teams.json'
+import teams from '../../../data/teams.json'
 
 export type ITeamFromApi = {
   teamId: string,
