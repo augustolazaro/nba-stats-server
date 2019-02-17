@@ -58,7 +58,14 @@ const TeamType: any = new GraphQLObjectType({
     },
     logo: {
       type: GraphQLString,
-      resolve: ({ abbreviation }: ITeamFromApi): string => `http://stats.nba.com/media/img/teams/logos/${abbreviation}_logo.svg`,
+      resolve: ({ abbreviation, teamAbbreviation }: ITeamFromApi & ITeamInfoFromApi): string | undefined => {
+        if (abbreviation) return `http://stats.nba.com/media/img/teams/logos/${abbreviation}_logo.svg`
+        if (teamAbbreviation) return `http://stats.nba.com/media/img/teams/logos/${teamAbbreviation}_logo.svg`
+      },
+    },
+    city: {
+      type: GraphQLString,
+      resolve: ({ teamCity }: ITeamFromApi & ITeamInfoFromApi): string => teamCity,
     },
     players: {
       type: new GraphQLList(PlayerType),
