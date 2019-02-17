@@ -1,9 +1,10 @@
 import NBA from 'nba'
-import { GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql'
+import { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt } from 'graphql'
 
 import PlayerType, { IPlayerFromApi } from '../player/PlayerType'
 
 import teams from '../../../data/teams.json'
+import StatType, { ITeamStat } from '../stat/StatType';
 
 export type ITeamFromApi = {
   teamId: string,
@@ -11,6 +12,25 @@ export type ITeamFromApi = {
   teamName: string,
   abbreviation: string,
   location: string,
+}
+
+export type ITeamInfoFromApi = {
+  teamId: number,
+  seasonYear: string,
+  teamCity: string,
+  teamName: string,
+  teamAbbreviation: string,
+  teamConference: string,
+  teamDivision: string,
+  teamCode: string,
+  w: number,
+  l: number,
+  pct: number,
+  confRank: number,
+  divRank: number,
+  minYear: string,
+  maxYear: string,
+  stats: ITeamStat,
 }
 
 export type ITeamArgs = {
@@ -22,19 +42,19 @@ const TeamType: any = new GraphQLObjectType({
   fields: () => ({
     id: {
       type: GraphQLString,
-      resolve: ({ teamId }: ITeamFromApi): string => teamId,
+      resolve: ({ teamId }: ITeamFromApi & ITeamInfoFromApi): string => teamId,
     },
     name: {
       type: GraphQLString,
-      resolve: ({ teamName }: ITeamFromApi): string => teamName,
+      resolve: ({ teamName }: ITeamFromApi & ITeamInfoFromApi): string => teamName,
     },
     simpleName: {
       type: GraphQLString,
-      resolve: ({ simpleName }: ITeamFromApi): string => simpleName,
+      resolve: ({ simpleName, teamName }: ITeamFromApi & ITeamInfoFromApi): string => simpleName || teamName,
     },
     abbreviation: {
       type: GraphQLString,
-      resolve: ({ abbreviation }: ITeamFromApi): string => abbreviation,
+      resolve: ({ abbreviation, teamAbbreviation }: ITeamFromApi & ITeamInfoFromApi): string => abbreviation || teamAbbreviation,
     },
     logo: {
       type: GraphQLString,
@@ -48,6 +68,9 @@ const TeamType: any = new GraphQLObjectType({
         return players.filter(player => player.teamId === teamId)
       },
     },
+    stats: {
+      type: StatType,
+    },
     colors: {
       type: new GraphQLList(GraphQLString),
       resolve: ({ teamId }: ITeamFromApi): string[] => {
@@ -55,6 +78,28 @@ const TeamType: any = new GraphQLObjectType({
         if (!currTeam) return []
         return currTeam.colors
       },
+    },
+    conference: {
+      type: GraphQLString,
+      resolve: ({ teamConference }: ITeamFromApi & ITeamInfoFromApi) => teamConference,
+    },
+    division: {
+      type: GraphQLString,
+      resolve: ({ teamDivision }: ITeamFromApi & ITeamInfoFromApi) => teamDivision,
+    },
+    confRank: {
+      type: GraphQLInt,
+    },
+    divRank: {
+      type: GraphQLInt,
+    },
+    wins: {
+      type: GraphQLInt,
+      resolve: ({ w }: ITeamInfoFromApi) => w,
+    },
+    losses: {
+      type: GraphQLInt,
+      resolve: ({ l }: ITeamInfoFromApi) => l,
     },
   }),
 })

@@ -4,9 +4,9 @@ import {
   GraphQLSchema,
   GraphQLList,
 } from 'graphql'
-import NBA from 'nba'
 
-import TeamType, { ITeamFromApi } from './types/team/TeamType'
+import TeamType from './types/team/TeamType'
+import * as TeamLoader from './types/team/TeamLoader'
 
 import PlayerType from './types/player/PlayerType'
 import * as PlayerLoader from './types/player/PlayerLoader'
@@ -40,7 +40,7 @@ const RootQuery = new GraphQLObjectType({
     },
     teams: {
       type: new GraphQLList(TeamType),
-      resolve: async () => await NBA.teams,
+      resolve: async () => await TeamLoader.loadAll(),
     },
     team: {
       type: TeamType,
@@ -49,11 +49,7 @@ const RootQuery = new GraphQLObjectType({
           type: GraphQLString,
         },
       },
-      resolve: async (_, { id }) => {
-        const teams = await NBA.teams
-        
-        return teams.find((t: ITeamFromApi) => t.teamId.toString() === id)
-      },
+      resolve: async (_, { id }) => await TeamLoader.loadInfosById(id),
     },
     games: {
       type: new GraphQLList(GameType),

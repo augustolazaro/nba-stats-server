@@ -15,3 +15,7 @@ app.use('/graphql', express_graphql({
     graphiql: true,
 }));
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// nba.stats.teamInfoCommon({ TeamID: 1610612746 })
+//     .then(res => console.log('--- res:', res))
+//     .catch(err => console.log('--- err:', err))
