@@ -57,7 +57,12 @@ const RootQuery = new GraphQLObjectType({
     },
     games: {
       type: new GraphQLList(GameType),
-      resolve: async () => await GameLoader.loadAll(),
+      args: {
+        date: {
+          type: GraphQLString,
+        },
+      },
+      resolve: async (_, args) => await GameLoader.loadAll(args),
     },
   }),
 })

@@ -30,5 +30,8 @@ export const loadById = async (id: string) => {
 
   if (!player) return null
 
-  return player.commonPlayerInfo[0]
+  return {
+    ...player.commonPlayerInfo[0],
+    stats: player.playerHeadlineStats[0],
+  }
 }

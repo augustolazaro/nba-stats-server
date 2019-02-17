@@ -1,5 +1,4 @@
-import NBA from 'nba'
-import { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt } from 'graphql'
+import { GraphQLObjectType, GraphQLString, GraphQLInt } from 'graphql'
 
 import TeamType from '../team/TeamType';
 import * as TeamLoader from '../team/TeamLoader'
