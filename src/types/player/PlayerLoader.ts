@@ -1,3 +1,4 @@
+// @ts-ignore
 import NBA from 'nba'
 
 import { IPlayerFromApi, PlayersArgs } from './PlayerType'
@@ -21,6 +22,7 @@ export const loadAll = async (args: PlayersArgs) => {
   const players = await NBA.stats.playersInfo()
 
   return Object.keys(args).reduce((acc: any, key: string) => {
+    // @ts-ignore
     return acc.filter((player: IPlayerFromApi) => filtersMapping(key, args[key], player))
   }, players)
 }

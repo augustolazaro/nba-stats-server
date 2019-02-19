@@ -1,8 +1,10 @@
+// @ts-ignore
 import NBA from 'nba'
 import { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt } from 'graphql'
 
 import PlayerType, { IPlayerFromApi } from '../player/PlayerType'
 
+// @ts-ignore
 import teams from '../../../data/teams.json'
 import StatType, { ITeamStat } from '../stat/StatType';
 
