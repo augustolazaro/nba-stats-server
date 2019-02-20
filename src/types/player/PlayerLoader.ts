@@ -3,7 +3,7 @@ import NBA from 'nba'
 
 import { IPlayerFromApi, PlayersArgs } from './PlayerType'
 
-export const filtersMapping = (key: string, value: string, player: IPlayerFromApi) => {
+export const filtersMapping = (key: string, value: any, player: IPlayerFromApi) => {
   if (key === 'search' && value) {
     const firstName = player.firstName ? player.firstName.toLocaleLowerCase() : ''
     const lastName = player.lastName ? player.lastName.toLocaleLowerCase() : ''
@@ -13,6 +13,11 @@ export const filtersMapping = (key: string, value: string, player: IPlayerFromAp
 
   if (key === 'team') {
     return player.teamId.toString() === value
+  }
+
+  if (key === 'ids') {
+    const id = player.playerId ? player.playerId.toString() : ''
+    return value.includes(id)
   }
 
   return true

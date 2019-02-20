@@ -26,6 +26,9 @@ const RootQuery = new GraphQLObjectType({
         team: {
           type: GraphQLString,
         },
+        ids: {
+          type: new GraphQLList(GraphQLString),
+        },
       },
       resolve: async (_, args) => await PlayerLoader.loadAll(args),
     },
@@ -40,7 +43,12 @@ const RootQuery = new GraphQLObjectType({
     },
     teams: {
       type: new GraphQLList(TeamType),
-      resolve: async () => await TeamLoader.loadAll(),
+      args: {
+        ids: {
+          type: new GraphQLList(GraphQLString),
+        },
+      },
+      resolve: async (_, args) => await TeamLoader.loadAll(args),
     },
     team: {
       type: TeamType,

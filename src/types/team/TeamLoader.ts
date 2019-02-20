@@ -16,6 +16,14 @@ export const loadInfosById = async (id: number | string) => {
   }
 }
 
-export const loadAll = async () => {
-  return await NBA.teams
+export const loadAll = async (args: any) => {
+  const teams = NBA.teams
+
+  if (args.ids) {
+    return teams.filter((team: any) => {
+      return args.ids.includes(team.teamId.toString())
+    })
+  }
+
+  return teams
 }
